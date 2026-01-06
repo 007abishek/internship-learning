@@ -1,4 +1,4 @@
-let count=0;
+let count=5;
 
 const countDisplay=document.querySelector('#count');
 const butt=document.querySelector('#incBtn');
