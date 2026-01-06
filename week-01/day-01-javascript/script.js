@@ -1,9 +1,9 @@
 let count=0;
 
 const countDisplay=document.querySelector('#count');
-const button=document.querySelector('#incBtn');
+const butt=document.querySelector('#incBtn');
 
-button.addEventListener('click',()=>{
+butt.addEventListener('click',()=>{
     count++;
     countDisplay.textContent=count;
     });
