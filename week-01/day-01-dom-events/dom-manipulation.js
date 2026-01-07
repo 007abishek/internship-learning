@@ -2,12 +2,12 @@
  * Day 1 – DOM Manipulation
  * Changing text, style, and classes
  */
-
+{
 const heading = document.getElementById("title");
 
 heading.textContent = "DOM Day 1 – Updated Title";
 heading.style.color = "blue";
-
+}
 /*
 OUTPUT (On Web Page):
 
