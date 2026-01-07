@@ -5,7 +5,7 @@ let numbers = [1, 2, 3, 4];
 
 // push & pop
 numbers.push(5);
-numbers.pop();
+
 
 //map
 let doubled=numbers.map(num=>num*2);
