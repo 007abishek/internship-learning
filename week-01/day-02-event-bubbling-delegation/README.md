@@ -1,4 +1,4 @@
-# Day 3 – Event Bubbling & Event Delegation
+# Day 2 – Event Bubbling & Event Delegation
 
 ## Objective
 To understand how browser events propagate and how event delegation
@@ -19,3 +19,4 @@ improves performance and code structure.
 ## Outcome
 This practice helped me understand how real frontend frameworks
 like React manage events efficiently.
+
