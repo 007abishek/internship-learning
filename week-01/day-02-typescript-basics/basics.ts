@@ -7,6 +7,7 @@ let isLoggedIn:boolean=true;
 //2 Typed function
 
 function greetUser(name:string):string{
+    
     return `Hello, ${name}`;
 }
 console.log(greetUser(userName));
