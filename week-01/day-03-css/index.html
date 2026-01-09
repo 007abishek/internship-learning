@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CSS Practice</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="header__title">CSS Practice Project</h1>
+    <button class="header__btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <h2 class="card__title">Flexbox</h2>
+      <p class="card__text">Used for one-dimensional layouts.</p>
+    </div>
+
+    <div class="card">
+      <h2 class="card__title">Grid</h2>
+      <p class="card__text">Used for two-dimensional layouts.</p>
+    </div>
+
+    <div class="card">
+      <h2 class="card__title">Responsive</h2>
+      <p class="card__text">Works on all screen sizes.</p>
+    </div>
+  </main>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+    }
+  </script>
+
+</body>
+</html>
