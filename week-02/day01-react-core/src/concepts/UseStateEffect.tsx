@@ -17,4 +17,4 @@ const UseStateEffect = () => {
   );
 };
 
-export default UseStateEffect; // 
+export default UseStateEffect; //
