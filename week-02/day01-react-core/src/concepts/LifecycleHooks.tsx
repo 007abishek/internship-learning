@@ -12,4 +12,4 @@ const LifecycleHooks = () => {
   return <h2>Lifecycle with Hooks</h2>;
 };
 
-export default LifecycleHooks; // ✅ MUST
+export default LifecycleHooks; // 
