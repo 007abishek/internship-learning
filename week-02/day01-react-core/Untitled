@@ -1,0 +1,27 @@
+Compiled with problems:
+×
+ERROR in src/App.tsx:1:23
+TS2306: File 'D:/internship-learning/week-02/day01-react-core/src/concepts/JsxVsHtml.tsx' is not a module.
+  > 1 | import JsxVsHtml from "./concepts/JsxVsHtml";
+      |                       ^^^^^^^^^^^^^^^^^^^^^^
+    2 | import VirtualDom from "./concepts/VirtualDom";
+    3 |
+    4 | function App(){
+ERROR in src/App.tsx:2:24
+TS2306: File 'D:/internship-learning/week-02/day01-react-core/src/concepts/VirtualDom.tsx' is not a module.
+    1 | import JsxVsHtml from "./concepts/JsxVsHtml";
+  > 2 | import VirtualDom from "./concepts/VirtualDom";
+      |                        ^^^^^^^^^^^^^^^^^^^^^^^
+    3 |
+    4 | function App(){
+    5 |   return(
+ERROR in src/concepts/JsxVsHtml.tsx
+TS1208: 'JsxVsHtml.tsx' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.
+ERROR in src/concepts/LifecycleHooks.tsx
+TS1208: 'LifecycleHooks.tsx' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.
+ERROR in src/concepts/MemoCallback.tsx
+TS1208: 'MemoCallback.tsx' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.
+ERROR in src/concepts/UseStateEffect.tsx
+TS1208: 'UseStateEffect.tsx' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.
+ERROR in src/concepts/VirtualDom.tsx
+TS1208: 'VirtualDom.tsx' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.
