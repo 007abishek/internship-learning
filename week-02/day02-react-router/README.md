@@ -2,9 +2,6 @@
 
 A comprehensive React Router demonstration project covering client-side routing, protected routes, dynamic routes, lazy loading, and error handling.
 
-## 📚 Learning Objectives
-
-This project demonstrates:
 
 - ✅ Understanding the role of React Router in client-side routing
 - ✅ Setting up routes and links
