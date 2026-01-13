@@ -1,73 +1,70 @@
-# React + TypeScript + Vite
+# React Router Learning Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A comprehensive React Router demonstration project covering client-side routing, protected routes, dynamic routes, lazy loading, and error handling.
 
-Currently, two official plugins are available:
+## 📚 Learning Objectives
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project demonstrates:
 
-## React Compiler
+- ✅ Understanding the role of React Router in client-side routing
+- ✅ Setting up routes and links
+- ✅ Using dynamic routes and parameters
+- ✅ Protecting routes with authentication
+- ✅ Lazy loading routes
+- ✅ Error route handling (404)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Features
 
-## Expanding the ESLint configuration
+### 1. **Client-Side Routing**
+   - Navigation between pages without full page reloads
+   - Browser history management
+   - URL-based routing
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 2. **Route Setup**
+   - Home page (`/`)
+   - Login page (`/login`)
+   - Dashboard page (`/dashboard`) - Protected
+   - User profile page (`/users/:id`) - Dynamic route
+   - 404 Not Found page (`*`) - Catch-all route
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 3. **Protected Routes**
+   - Authentication check using session storage
+   - Automatic redirect to login if not authenticated
+   - Preserves intended destination for post-login redirect
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 4. **Dynamic Routes**
+   - URL parameters using `useParams` hook
+   - Example: `/users/123` displays user ID 123
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 5. **Lazy Loading**
+   - Code splitting for Dashboard component
+   - Improved initial load performance
+   - Loading fallback UI
+
+### 6. **Error Handling**
+   - 404 page for unmatched routes
+   - User-friendly error messages
+
+## 🛠️ Tech Stack
+
+- **React** 19.2.0
+- **React Router DOM** 7.12.0
+- **TypeScript** 5.9.3
+- **Vite** 7.2.4
+
+## 📁 Project Structure
+
 ```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+src/
+├── components/
+│   └── ProtectedRoute.tsx    # Route protection component
+├── pages/
+│   ├── Home.tsx               # Home page
+│   ├── Login.tsx              # Login page
+│   ├── Dashboard.tsx          # Protected dashboard (lazy loaded)
+│   ├── User.tsx               # Dynamic user route
+│   └── NotFound.tsx           # 404 error page
+├── App.tsx                    # Main app component with routes
+├── main.tsx                   # App entry point
+└── index.css                  # Global styles
 ```

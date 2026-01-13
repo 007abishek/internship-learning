@@ -1,18 +1,21 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import type React from "react";
 
-const Login: React.FC = () => {
+interface LoginProps {
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Login: React.FC<LoginProps> = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleLogin = (): void => {
-    // Use sessionStorage so auth ends with the tab; also clear any legacy localStorage token
+    // Mark user as logged in in App state
+    setIsLoggedIn(true);
+    // Optionally still store a token if you want to inspect it
     sessionStorage.setItem("token", "abc123");
-    localStorage.removeItem("token");
 
-    // Redirect to the page user was trying to access, or dashboard as default
-    const from = (location.state as { from?: { pathname: string } })?.from?.pathname || "/dashboard";
-    navigate(from, { replace: true });
+    // Go to dashboard after login
+    navigate("/dashboard", { replace: true });
   };
 
   return (

@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import User from "./pages/User";
+import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -11,7 +13,9 @@ function App() {
 
   const handleLogout = (): void => {
     setIsLoggedIn(false);
-    navigate("/login");
+    // Clear any session token as well, to keep behavior consistent
+    sessionStorage.removeItem("token");
+    navigate("/login", { replace: true });
   };
 
   return (
@@ -46,6 +50,10 @@ function App() {
             </ProtectedRoute>
           }
         />
+        {/* Dynamic user route */}
+        <Route path="/users/:id" element={<User />} />
+        {/* 404 route */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
