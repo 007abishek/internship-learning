@@ -30,18 +30,20 @@ GraphQL is a **query language for APIs** and a **runtime** that allows clients t
 - Apollo Client v4
 
 ---
-
-## 📁 Folder Structure
-
+Folder structure
 src/
 ├── apollo/
-│ └── client.js # Apollo Client configuration
+│   └── client.js        # GraphQL (Apollo) connection setup
+│
 ├── graphql/
-│ └── queries.js # GraphQL queries
+│   └── queries.js       # All GraphQL queries
+│
 ├── components/
-│ └── UserList.jsx # UI component using GraphQL
-├── App.jsx # App layout
-└── main.jsx # Entry point with ApolloProvider
+│   └── UserList.jsx     # UI component using GraphQL data
+│
+├── App.jsx              # Application layout
+└── main.jsx             # Application entry point + ApolloProvider
+
 
 
 ---
