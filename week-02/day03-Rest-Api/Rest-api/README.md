@@ -1,16 +1,83 @@
-# React + Vite
+# React REST API Integration (User List)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project demonstrates **how to integrate React with a REST API** using a **scalable and industry-standard folder structure**.  
+It fetches user data from a public REST API and displays it in the UI.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
 
-## React Compiler
+- React (Vite)
+- Axios
+- REST API (JSONPlaceholder)
+- JavaScript (ES6+)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 📁 Project Folder Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```txt
+src/
+├── api/
+│   └── userApi.js        # API layer (axios calls)
+│
+├── hooks/
+│   └── useUsers.js       # Custom hook (business logic)
+│
+├── components/
+│   └── UserList.jsx      # UI-only component
+│
+├── pages/
+│   └── Home.jsx          # Page-level component
+│
+├── App.jsx
+└── main.jsx
+
+
+🔄 Data Flow Architecture
+
+Home.jsx
+ ↓
+useUsers.js (custom hook)
+ ↓
+userApi.js (axios REST call)
+ ↓
+Backend API
+ ↓
+State update
+ ↓
+UserList.jsx renders UI
+
+📸 Output Screenshot
+
+Below is the expected output after successful REST API integration:
+
+📦 API Used
+
+Endpoint:
+https://jsonplaceholder.typicode.com/users
+
+Method:
+GET
+
+🧠 Key Learning Points
+
+API calls should be separated from UI logic
+
+Custom hooks improve reusability and readability
+
+Components should focus only on rendering
+
+Axios simplifies REST API handling
+
+Proper folder structure improves scalability
+
+🛠️ Installation & Run
+npm install
+npm install axios
+npm run dev
+
+
+Open in browser:
+
+http://localhost:5173
