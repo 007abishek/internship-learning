@@ -21,15 +21,7 @@ Vitest
 
 Node.js
 
-📁 Project Structure
-Pure-JS-tests/
-├── src/
-│   └── utils/
-│       ├── math.js
-│       └── math.test.js
-├── package.json
-├── package-lock.json
-└── README.md
+
 
 📄 Code Example
 src/utils/math.js
