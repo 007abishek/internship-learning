@@ -1,4 +1,4 @@
-# Day 2 – Branch & Edge-Case Testing
+Branch & Edge-Case Testing
 
 This project demonstrates **branch testing** and **edge-case testing**
 using **pure JavaScript** and **Vitest**.

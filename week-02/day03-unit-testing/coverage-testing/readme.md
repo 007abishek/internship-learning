@@ -14,8 +14,6 @@ coverage-testing/
 ├─ package.json
 └─ README.md
 
-yaml
-Copy code
 
 ---
 
@@ -42,13 +40,10 @@ Install dependencies:
 npm install
 Run unit tests:
 
-bash
-Copy code
 npm test
 Run tests with coverage:
 
-bash
-Copy code
+
 npm run coverage
 📊 Coverage Goal
 Ensure all logic branches are tested
