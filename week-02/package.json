@@ -1,6 +1,8 @@
 {
   "devDependencies": {
     "@rspack/cli": "^1.7.1",
-    "@rspack/core": "^1.7.1"
+    "@rspack/core": "^1.7.1",
+    "@vitest/coverage-v8": "^4.0.17",
+    "vitest": "^4.0.17"
   }
 }
