@@ -40,3 +40,9 @@ export const Withinitialsathish = {
     name:"sathish"
   }
 };
+
+export const Withinitials = {
+  args:{
+    name:"shivam"
+  }
+};
