@@ -237,14 +237,3 @@ Use tools like:
 - [GraphQL Best Practices](https://graphql.org/learn/best-practices/)
 - [Apollo DevTools](https://www.apollographql.com/docs/devtools/)
 
-## 🎓 Learning Objectives
-
-By completing this project, you'll understand:
-
-- How GraphQL differs from REST APIs
-- Setting up Apollo Client in React
-- Writing and executing GraphQL queries
-- Handling loading and error states
-- Caching strategies with Apollo
-- Component integration with GraphQL data
-- Best practices for scalable GraphQL applications

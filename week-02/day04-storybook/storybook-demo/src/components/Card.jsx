@@ -14,4 +14,4 @@ const Card = ({ title, description }) => {
   );
 };
 
-export default Card;   // ✅ REQUIRED
+export default Card;   // 
