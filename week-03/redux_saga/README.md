@@ -27,27 +27,24 @@ It demonstrates how to manage **global state**, handle **asynchronous logic**, a
 
 ## 📁 Folder Structure
 
-src/
-│
-├── redux/
-│   │
-│   ├── store.js
-│   │
-│   └── cart/
-│       │
-│       ├── cartReducer.js
-│       ├── cartSaga.js
-│       │
-│       └── tests/
-│           ├── cartSaga.test.js
-│           └── cartWatcher.test.js
-│
-├── components/
+src
+├── store
+│   ├── index.js
+│   ├── rootReducer.js
+│   └── rootSaga.js
+├── features
+│   └── cart
+│       ├── reducer.js
+│       ├── saga.js
+│       └── tests
+│           ├── saga.test.js
+│           └── watcher.test.js
+├── components
 │   ├── ProductList.jsx
 │   └── Cart.jsx
-│
 ├── App.jsx
 └── index.js
+
 
 
 ## 🔄 Application Flow
