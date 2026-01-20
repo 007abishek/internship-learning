@@ -48,7 +48,7 @@ src
 
 
 ## 🔄 Application Flow
-
+```
 User Action (Add / Remove)
 ↓
 Redux Action Dispatched
@@ -58,7 +58,7 @@ Redux-Saga handles logic
 Reducer updates store
 ↓
 UI re-renders
-
+```
 
 ---
 
