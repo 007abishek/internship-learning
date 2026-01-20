@@ -26,7 +26,7 @@ It demonstrates how to manage **global state**, handle **asynchronous logic**, a
 ---
 ...
 ## 📁 Folder Structure
-
+```
 src
 ├── store
 │   ├── index.js
@@ -44,7 +44,7 @@ src
 │   └── Cart.jsx
 ├── App.jsx
 └── index.js
-
+```
 
 
 ## 🔄 Application Flow
