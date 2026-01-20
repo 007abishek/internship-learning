@@ -1,70 +1,137 @@
-# Getting Started with Create React App
+# 🛒 Redux-Saga Cart Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a simple **Cart Application** built using **React, Redux, and Redux-Saga**.  
+It demonstrates how to manage **global state**, handle **asynchronous logic**, and apply **advanced Redux-Saga effects** in a real-world scenario.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+- Add items to cart
+- Remove items from cart
+- Prevent duplicate items
+- Handle async behavior using Redux-Saga
+- Handle edge cases like rapid clicks and timeouts
+- Clean separation of UI, state, and business logic
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🧠 Tech Stack
 
-### `npm test`
+- React
+- Redux
+- Redux-Saga
+- React-Redux
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 📁 Folder Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+src/
+│
+├── redux/
+│ ├── store.js
+│ │
+│ ├── cart/
+│ │ ├── cartReducer.js
+│ │ ├── cartSaga.js
+│ │ └── tests/
+│ │ ├── cartSaga.test.js
+│ │ └── cartWatcher.test.js
+│
+├── components/
+│ ├── ProductList.jsx
+│ └── Cart.jsx
+│
+├── App.jsx
+└── index.js
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🔄 Application Flow
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+User Action (Add / Remove)
+↓
+Redux Action Dispatched
+↓
+Redux-Saga handles logic
+↓
+Reducer updates store
+↓
+UI re-renders
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🧩 Redux-Saga Concepts Used
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### ✅ `takeEvery`
+- Listens for every `REMOVE_FROM_CART` action.
+- Ensures all remove actions are processed.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### ✅ `throttle`
+- Limits `ADD_TO_CART` actions to one per second.
+- Prevents rapid clicks and duplicate async calls.
 
-## Learn More
+### ✅ `select`
+- Reads current cart state inside the saga.
+- Used to prevent adding duplicate items.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### ✅ `put`
+- Dispatches success and error actions to Redux.
+- Acts like `dispatch()` inside sagas.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### ✅ `race`
+- Handles timeout scenarios.
+- Competes between API simulation and timeout delay.
 
-### Code Splitting
+### ✅ `take`, `fork`, `cancel`
+- Used for manual control over saga execution.
+- Cancels outdated add-to-cart tasks when new ones arrive.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## 🐞 Bug Fixed
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+**Issue:**  
+After removing an item, adding it again still showed  
+“Item already exists in cart”.
 
-### Making a Progressive Web App
+**Fix:**  
+- Properly cleared the `error` state in the reducer on successful add and remove actions.
+- Ensured the saga always checks the latest Redux state using `select`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## 🧪 Testing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Worker sagas tested using **generator testing**
+- Watcher sagas tested using **`testSaga`**
+- Learned common pitfalls:
+  - Watcher sagas never complete
+  - `.done()` should not be used for watcher tests
+  - Named exports are required for testing sagas
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🎯 Key Learnings
 
-### `npm run build` fails to minify
+- How Redux-Saga separates business logic from UI
+- How generator functions control async flow
+- How to handle race conditions and cancellation
+- How to test sagas correctly
+- How small state issues can cause UI bugs
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## 🧑‍💻 Interview-Ready Summary
+
+> This project uses Redux-Saga to manage async cart operations with proper state handling, rate limiting, timeout protection, and cancellation logic. It follows clean architecture principles and real-world Redux-Saga best practices.
+
+---
+
+## ▶️ How to Run
+
+```bash
+npm install
+npm start
+
+npm test
