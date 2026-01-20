@@ -12,7 +12,7 @@ This project demonstrates how to:
 - Use render props for component composition
 - Share stateful logic between components
 - Create flexible, reusable counter components
-- Apply the render props pattern with different UI implementations
+- Apply the render props pattern with different UI 
 
 ## Tech Stack
 
