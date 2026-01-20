@@ -24,7 +24,7 @@ It demonstrates how to manage **global state**, handle **asynchronous logic**, a
 - React-Redux
 
 ---
-
+...
 ## 📁 Folder Structure
 
 src
