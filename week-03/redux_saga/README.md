@@ -30,21 +30,25 @@ It demonstrates how to manage **global state**, handle **asynchronous logic**, a
 src/
 │
 ├── redux/
-│ ├── store.js
-│ │
-│ ├── cart/
-│ │ ├── cartReducer.js
-│ │ ├── cartSaga.js
-│ │ └── tests/
-│ │ ├── cartSaga.test.js
-│ │ └── cartWatcher.test.js
+│   │
+│   ├── store.js
+│   │
+│   └── cart/
+│       │
+│       ├── cartReducer.js
+│       ├── cartSaga.js
+│       │
+│       └── tests/
+│           ├── cartSaga.test.js
+│           └── cartWatcher.test.js
 │
 ├── components/
-│ ├── ProductList.jsx
-│ └── Cart.jsx
+│   ├── ProductList.jsx
+│   └── Cart.jsx
 │
 ├── App.jsx
 └── index.js
+
 
 ## 🔄 Application Flow
 
@@ -110,21 +114,7 @@ After removing an item, adding it again still showed
   - `.done()` should not be used for watcher tests
   - Named exports are required for testing sagas
 
----
 
-## 🎯 Key Learnings
-
-- How Redux-Saga separates business logic from UI
-- How generator functions control async flow
-- How to handle race conditions and cancellation
-- How to test sagas correctly
-- How small state issues can cause UI bugs
-
----
-
-## 🧑‍💻 Interview-Ready Summary
-
-> This project uses Redux-Saga to manage async cart operations with proper state handling, rate limiting, timeout protection, and cancellation logic. It follows clean architecture principles and real-world Redux-Saga best practices.
 
 ---
 
