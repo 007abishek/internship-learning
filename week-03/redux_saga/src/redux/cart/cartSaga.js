@@ -54,9 +54,9 @@ export function* removeFromCartSaga(action) {
   });
 }
 
-/* ---------- WATCHERS ---------- */
 
-// Manual cancel example (advanced)
+
+// Manual cancel example 
 export function* watchAddToCart() {
   let lastTask;
 
