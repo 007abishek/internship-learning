@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthContext";
 import { addTodo, getTodos, deleteTodo } from "../utils/indexDb";
+import type { Todo } from "../utils/indexDb";
 
 const TodoSection = () => {
   const { user } = useAuth();
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [text, setText] = useState("");
 
   useEffect(() => {
@@ -18,10 +19,11 @@ const TodoSection = () => {
     });
   }, [user]);
 
-  const handleAddTodo = async () => {
+  const handleAddTodo = async (): Promise<void> => {
     if (!text.trim()) return;
+    if (!user) return;
 
-    if (user.isAnonymous && todos.length >= 3) {
+    if (user?.isAnonymous && todos.length >= 3) {
       alert("Guest users can add only 3 todos. Please login.");
       return;
     }
@@ -33,13 +35,13 @@ const TodoSection = () => {
 
     const id = await addTodo(newTodo);
 
-    setTodos([...todos, { ...newTodo, id }]);
+    setTodos((prev) => [...prev, { ...newTodo, id }]);
     setText("");
   };
 
-  const handleDeleteTodo = async (id) => {
+  const handleDeleteTodo = async (id: number): Promise<void> => {
     await deleteTodo(id);
-    setTodos(todos.filter((todo) => todo.id !== id));
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
   return (
@@ -55,9 +57,11 @@ const TodoSection = () => {
 
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>
+          <li key={todo.id!}>
             {todo.text}
-            <button onClick={() => handleDeleteTodo(todo.id)}>❌</button>
+            <button onClick={() => handleDeleteTodo(todo.id!)}>
+              ❌
+            </button>
           </li>
         ))}
       </ul>
