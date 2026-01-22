@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../auth/AuthContext";
 import { FirebaseError } from "firebase/app";
+import "../styles/login.css";
 
 const Login = () => {
   const {
@@ -22,6 +23,9 @@ const Login = () => {
     setMessage("");
   }, []);
 
+  // --------------------
+  // Email / Password Sign In
+  // --------------------
   const handleSignIn = async () => {
     setMessage("");
     setLoading(true);
@@ -36,9 +40,7 @@ const Login = () => {
         error.code === "auth/wrong-password" ||
         error.code === "auth/invalid-credential"
       ) {
-        setMessage(
-          "Invalid email or password. If you are new, please sign up."
-        );
+        setMessage("Invalid email or password.");
       } else if (error.code === "auth/invalid-email") {
         setMessage("Please enter a valid email address.");
       } else {
@@ -49,6 +51,9 @@ const Login = () => {
     }
   };
 
+  // --------------------
+  // Email / Password Sign Up
+  // --------------------
   const handleSignUp = async () => {
     setMessage("");
     setLoading(true);
@@ -72,6 +77,9 @@ const Login = () => {
     }
   };
 
+  // --------------------
+  // Google Login
+  // --------------------
   const handleGoogleLogin = async () => {
     setMessage("");
     setLoading(true);
@@ -85,6 +93,9 @@ const Login = () => {
     }
   };
 
+  // --------------------
+  // GitHub Login (v0-style UX)
+  // --------------------
   const handleGithubLogin = async () => {
     setMessage("");
     setLoading(true);
@@ -94,11 +105,9 @@ const Login = () => {
     } catch (err) {
       const error = err as FirebaseError;
 
-      if (
-        error.code === "auth/account-exists-with-different-credential"
-      ) {
+      if (error.code === "auth/account-exists-with-different-credential") {
         setMessage(
-          "This email is already registered using another login method."
+          "This email is already associated with another sign-in method. Please try Google."
         );
       } else if (error.code === "auth/popup-closed-by-user") {
         setMessage("Login popup was closed.");
@@ -110,6 +119,9 @@ const Login = () => {
     }
   };
 
+  // --------------------
+  // Guest Login
+  // --------------------
   const handleGuestLogin = async () => {
     setMessage("");
     setLoading(true);
@@ -124,58 +136,83 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h2>Authentication</h2>
+    <div className="login-page">
+      <div className="login-card">
+        <h2 className="login-title">Authentication</h2>
 
-      <button onClick={handleGoogleLogin} disabled={loading}>
-        Continue with Google
-      </button>
-
-      <hr />
-
-      <button onClick={handleGithubLogin} disabled={loading}>
-        Continue with GitHub
-      </button>
-
-      <hr />
-
-      <button onClick={handleGuestLogin} disabled={loading}>
-        Continue as Guest
-      </button>
-
-      <hr />
-
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSignIn();
-        }}
-      >
-        <input
-          type="email"
-          placeholder="Enter Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          type="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <button type="submit" disabled={loading}>
-          Sign In
+        <button
+          className="login-btn google"
+          onClick={handleGoogleLogin}
+          disabled={loading}
+        >
+          Continue with Google
         </button>
-      </form>
 
-      <button onClick={handleSignUp} disabled={loading}>
-        Sign Up
-      </button>
+        <button
+          className="login-btn github"
+          onClick={handleGithubLogin}
+          disabled={loading}
+        >
+          Continue with GitHub
+        </button>
 
-      {message && <p style={{ color: "red" }}>{message}</p>}
-      {loading && <p>Processing...</p>}
+        <button
+          className="login-btn guest"
+          onClick={handleGuestLogin}
+          disabled={loading}
+        >
+          Continue as Guest
+        </button>
+
+        <div className="divider">OR</div>
+
+       
+        <form
+  onSubmit={(e) => {
+    e.preventDefault();
+    handleSignIn();
+  }}
+>
+  <input
+    className="login-input"
+    type="email"
+    placeholder="Enter Email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    disabled={loading}
+  />
+
+  <input
+    className="login-input"
+    type="password"
+    placeholder="Enter Password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    disabled={loading}
+  />
+
+  <button
+    className="login-btn signin"
+    type="submit"
+    disabled={loading}
+  >
+    Sign In
+  </button>
+</form>
+
+      
+
+        <button
+          className="login-btn secondary"
+          onClick={handleSignUp}
+          disabled={loading}
+        >
+          Sign Up
+        </button>
+
+        {message && <p className="login-error">{message}</p>}
+        {loading && <p className="login-loading">Processing...</p>}
+      </div>
     </div>
   );
 };

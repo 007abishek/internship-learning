@@ -1,0 +1,132 @@
+.todo-container {
+  width: 100%;
+}
+
+/* Add Task Card */
+.todo-add-card {
+  background: var(--card-bg);
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 28px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+.todo-add-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--card-text);
+}
+
+/* Input Row */
+.todo-input-row {
+  display: flex;
+  gap: 12px;
+}
+
+.todo-input-row input {
+  flex: 1;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--card-text);
+  font-size: 14px;
+}
+
+.todo-input-row input::placeholder {
+  color: var(--muted);
+}
+
+.todo-input-row button {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 0 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Todo List */
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Todo Item Card */
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card-bg);
+  border-radius: 18px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(99, 102, 241, 0.35);
+}
+
+/* Left side */
+.todo-left {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.todo-left input[type="checkbox"] {
+  margin-top: 4px;
+}
+
+.todo-left strong {
+  display: block;
+  font-size: 15px;
+  color: var(--card-text);
+}
+
+.todo-date {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Actions */
+.todo-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.todo-actions button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.todo-actions .delete {
+  color: #ef4444;
+}
+/* Completed todo */
+.todo-item.completed strong {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* Edit input */
+.edit-input {
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--card-text);
+  font-size: 14px;
+}
+
+/* Action buttons */
+.todo-actions .save {
+  color: #22c55e;
+}
+
+.todo-actions .cancel {
+  color: #ef4444;
+}

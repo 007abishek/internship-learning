@@ -1,23 +1,49 @@
 import { useState } from "react";
 import { useAuth } from "../auth/AuthContext";
+import "../styles/github.css";
 
+// --------------------
+// Types
+// --------------------
+type GithubRepo = {
+  id: number;
+  full_name: string;
+  html_url: string;
+  stargazers_count: number;
+};
+
+type GithubApiResponse = {
+  items: GithubRepo[];
+};
+
+type GithubUser = {
+  login: string;
+  avatar_url: string;
+  html_url: string;
+  bio: string | null;
+  followers: number;
+  following: number;
+  public_repos: number;
+};
+
+// --------------------
+// Component
+// --------------------
 const GithubSection = () => {
   const { user } = useAuth();
 
   const [query, setQuery] = useState("");
-  const [repos, setRepos] = useState([]);
+  const [profile, setProfile] = useState<GithubUser | null>(null);
+  const [repos, setRepos] = useState<GithubRepo[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // 🔒 Restrict guest users
-  if (user.isAnonymous) {
+  // 🔒 Guest restriction
+  if (!user || user.isAnonymous) {
     return (
-      <div>
-        <h3>GitHub Repository Search</h3>
-        <p style={{ color: "orange" }}>
-          Login to search GitHub repositories
-        </p>
-      </div>
+      <p className="github-guest">
+        Login to search GitHub profiles and repositories.
+      </p>
     );
   }
 
@@ -31,57 +57,98 @@ const GithubSection = () => {
 
     setLoading(true);
     setError("");
+    setProfile(null);
     setRepos([]);
 
     try {
-      const res = await fetch(
-        `https://api.github.com/search/repositories?q=${query}`
+      const profileRes = await fetch(
+        `https://api.github.com/users/${query}`
       );
+      if (!profileRes.ok) throw new Error();
 
-      if (!res.ok) {
-        throw new Error("GitHub API error");
-      }
+      const profileData: GithubUser = await profileRes.json();
+      setProfile(profileData);
 
-      const data = await res.json();
-      setRepos(data.items.slice(0, 10)); // limit results
-    } catch (err) {
-      setError("Failed to fetch repositories. Try again later.");
+      const repoRes = await fetch(
+        `https://api.github.com/search/repositories?q=user:${query}`
+      );
+      if (!repoRes.ok) throw new Error();
+
+      const repoData: GithubApiResponse = await repoRes.json();
+      setRepos(repoData.items.slice(0, 8));
+    } catch {
+      setError("GitHub user not found or API error.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h3>GitHub Repository Search</h3>
+    <div className="github-container">
+      {/* Search */}
+      <div className="github-search-card">
+        <h3>Search GitHub</h3>
 
-      {/* SEARCH BAR */}
-      <input
-        type="text"
-        placeholder="Search GitHub repositories"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
+        <div className="github-search-row">
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Enter GitHub username"
+          />
+          <button onClick={handleSearch}>Search</button>
+        </div>
+      </div>
 
-      <button onClick={handleSearch}>Search</button>
+      {loading && <p className="github-status">Searching GitHub...</p>}
+      {error && <p className="github-error">{error}</p>}
 
-      {/* LOADING */}
-      {loading && <p>Searching repositories...</p>}
+      {/* Profile */}
+      {profile && (
+        <div className="github-profile-card">
+          <img src={profile.avatar_url} alt={profile.login} />
 
-      {/* ERROR */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+          <div>
+            <h4>{profile.login}</h4>
+            {profile.bio && <p>{profile.bio}</p>}
 
-      {/* RESULTS */}
-      <ul>
-        {repos.map((repo) => (
-          <li key={repo.id}>
-            <a href={repo.html_url} target="_blank">
-              {repo.full_name}
+            <div className="github-stats">
+              <span>👥 {profile.followers}</span>
+              <span>➡ {profile.following}</span>
+              <span>📦 {profile.public_repos}</span>
+            </div>
+
+            <a
+              href={profile.html_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Profile →
             </a>
-            <p>⭐ {repo.stargazers_count}</p>
-          </li>
-        ))}
-      </ul>
+          </div>
+        </div>
+      )}
+
+      {/* Repos */}
+      {repos.length > 0 && (
+        <>
+          <h4 className="github-repo-title">Top Repositories</h4>
+
+          <ul className="github-repo-list">
+            {repos.map((repo) => (
+              <li key={repo.id} className="github-repo-item">
+                <a
+                  href={repo.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {repo.full_name}
+                </a>
+                <span>⭐ {repo.stargazers_count}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 };

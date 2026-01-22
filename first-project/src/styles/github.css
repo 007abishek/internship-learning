@@ -1,0 +1,131 @@
+.github-container {
+  width: 100%;
+}
+
+/* Search card */
+.github-search-card {
+  background: var(--card-bg);
+  padding: 22px;
+  border-radius: 18px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
+  margin-bottom: 24px;
+}
+
+.github-search-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.github-search-row {
+  display: flex;
+  gap: 12px;
+}
+
+.github-search-row input {
+  flex: 1;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+}
+
+.github-search-row button {
+  padding: 0 22px;
+  border-radius: 14px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  color: white;
+  background: linear-gradient(135deg, #24292f, #111827);
+}
+
+/* Profile card */
+.github-profile-card {
+  display: flex;
+  gap: 18px;
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
+  margin-bottom: 24px;
+}
+
+.github-profile-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.github-profile-card h4 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.github-profile-card p {
+  margin: 6px 0;
+  color: var(--muted);
+}
+
+.github-stats {
+  display: flex;
+  gap: 14px;
+  font-size: 13px;
+  margin: 10px 0;
+}
+
+.github-profile-card a {
+  font-weight: 600;
+  color: #6366f1;
+  text-decoration: none;
+}
+
+/* Repos */
+.github-repo-title {
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.github-repo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.github-repo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card-bg);
+  padding: 16px 18px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
+}
+
+.github-repo-item a {
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.github-repo-item span {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* States */
+.github-error {
+  color: #ef4444;
+  margin-bottom: 12px;
+}
+
+.github-status {
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.github-guest {
+  color: orange;
+}

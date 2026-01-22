@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthContext";
+import "../styles/product.css";
 
 // --------------------
 // Types
@@ -31,10 +32,7 @@ const ProductSection = () => {
     const fetchProducts = async () => {
       try {
         const res = await fetch("https://fakestoreapi.com/products");
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch products");
-        }
+        if (!res.ok) throw new Error();
 
         const data: Product[] = await res.json();
         setProducts(data);
@@ -49,50 +47,38 @@ const ProductSection = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading products...</p>;
+    return <p className="product-status">Loading products...</p>;
   }
 
   if (error) {
-    return (
-      <div>
-        <h3>Products</h3>
-        <p style={{ color: "red" }}>{error}</p>
-      </div>
-    );
+    return <p className="product-error">{error}</p>;
   }
 
   return (
-    <div>
-      <h3>Products</h3>
-
+    <div className="product-container">
       {user?.isAnonymous && (
-        <p style={{ color: "orange" }}>
+        <p className="product-guest">
           Login to unlock full product features
         </p>
       )}
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "15px",
-        }}
-      >
+      <div className="product-grid">
         {products.map((product) => (
-          <div
-            key={product.id}
-            style={{ border: "1px solid #ccc", padding: "10px" }}
-          >
+          <div key={product.id} className="product-card">
             <img
               src={product.image}
               alt={product.title}
-              width={80}
               loading="lazy"
             />
-            <h4>{product.title}</h4>
-            <p>₹ {product.price}</p>
 
-            {!user?.isAnonymous && <button>Add to Wishlist</button>}
+            <h4>{product.title}</h4>
+            <p className="product-price">₹ {product.price}</p>
+
+            {!user?.isAnonymous && (
+              <button className="wishlist-btn">
+                Add to Wishlist
+              </button>
+            )}
           </div>
         ))}
       </div>

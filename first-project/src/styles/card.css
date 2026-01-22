@@ -1,0 +1,23 @@
+.feature-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.feature-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.feature-desc {
+  margin-top: 8px;
+  color: var(--muted);
+}

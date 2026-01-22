@@ -1,32 +1,66 @@
-import { Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
+import { useTheme } from "../context/ThemeContext";
+import FeatureCard from "../components/FeatureCard";
+import "../styles/dashboard.css";
 
 const Home = () => {
-  const { user } = useAuth();
-
+  const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   if (!user) return null;
 
   return (
-    <div>
-      <h3>Explore Features</h3>
+    <div className="dashboard">
+      <div className="dashboard-container">
+        {/* TOP BAR */}
+        <div className="topbar">
+          <div className="topbar-left">
+            <h1>Dashboard</h1>
+            <p>
+              Manage your todos, products, and GitHub repositories in one place
+            </p>
+          </div>
 
-      {user.isAnonymous && (
-        <p style={{ color: "orange" }}>
-          You are in Guest mode. Login to unlock full features.
-        </p>
-      )}
+          <div className="topbar-right">
+            <button className="icon-btn" onClick={toggleTheme}>
+              {theme === "dark" ? "🌙" : "☀️"}
+            </button>
 
-      <ul>
-        <li>
-          <Link to="/home/todos">📝 Todo App</Link>
-        </li>
-        <li>
-          <Link to="/home/products">🛒 Products</Link>
-        </li>
-        <li>
-          <Link to="/home/github">🐙 GitHub Search</Link>
-        </li>
-      </ul>
+            <button className="logout-btn" onClick={logout}>
+              Logout
+            </button>
+          </div>
+        </div>
+
+        {user.isAnonymous && (
+          <p className="guest-warning">
+            You are in Guest mode. Login to unlock full features.
+          </p>
+        )}
+
+        <div className="dashboard-grid">
+          <FeatureCard
+            title="Todo Manager"
+            description="Create, edit, and manage your tasks"
+            route="/home/todos"
+            icon="📝"
+            accent="blue"
+          />
+          <FeatureCard
+            title="Product Manager"
+            description="Manage and organize your products"
+            route="/home/products"
+            icon="📦"
+            accent="purple"
+          />
+          <FeatureCard
+            title="GitHub Repos"
+            description="View and track your GitHub repositories"
+            route="/home/github"
+            icon="🐙"
+            accent="dark"
+          />
+        </div>
+      </div>
     </div>
   );
 };

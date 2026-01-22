@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthContext";
 import { addTodo, getTodos, deleteTodo } from "../utils/indexDb";
 import type { Todo } from "../utils/indexDb";
+import "../styles/todos.css";
 
 const TodoSection = () => {
   const { user } = useAuth();
@@ -23,7 +24,7 @@ const TodoSection = () => {
     if (!text.trim()) return;
     if (!user) return;
 
-    if (user?.isAnonymous && todos.length >= 3) {
+    if (user.isAnonymous && todos.length >= 3) {
       alert("Guest users can add only 3 todos. Please login.");
       return;
     }
@@ -45,23 +46,44 @@ const TodoSection = () => {
   };
 
   return (
-    <div>
-      <h3>Todos</h3>
+    <div className="todo-container">
+      {/* Add Task Card */}
+      <div className="todo-add-card">
+        <h3>Add New Task</h3>
 
-      <input
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="Enter todo"
-      />
-      <button onClick={handleAddTodo}>Add</button>
+        <div className="todo-input-row">
+          <input
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Enter a new task..."
+          />
+          <button onClick={handleAddTodo}>＋ Add</button>
+        </div>
+      </div>
 
-      <ul>
+      {/* Todo List */}
+      <ul className="todo-list">
         {todos.map((todo) => (
-          <li key={todo.id!}>
-            {todo.text}
-            <button onClick={() => handleDeleteTodo(todo.id!)}>
-              ❌
-            </button>
+          <li key={todo.id!} className="todo-item">
+            <div className="todo-left">
+              <input type="checkbox" />
+              <div>
+                <strong>{todo.text}</strong>
+                <span className="todo-date">
+                  {new Date().toLocaleDateString()}
+                </span>
+              </div>
+            </div>
+
+            <div className="todo-actions">
+              <button className="edit">✏️</button>
+              <button
+                className="delete"
+                onClick={() => handleDeleteTodo(todo.id!)}
+              >
+                🗑️
+              </button>
+            </div>
           </li>
         ))}
       </ul>

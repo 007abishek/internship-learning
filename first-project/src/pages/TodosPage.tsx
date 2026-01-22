@@ -1,10 +1,18 @@
 import TodoSection from "../components/TodoSection";
+import "../styles/pages.css";
+import "../styles/todos.css";
 
 const TodosPage = () => {
   return (
-    <div>
-      <h2>Todo App</h2>
-      <TodoSection />
+    <div className="page-container">
+      <div className="page-header">
+        <h2>Todo Manager</h2>
+        <p>Track and manage your daily tasks</p>
+      </div>
+
+      <div className="page-card">
+        <TodoSection />
+      </div>
     </div>
   );
 };

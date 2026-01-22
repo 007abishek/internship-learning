@@ -1,0 +1,119 @@
+/* =========================
+   BASE CARD
+========================= */
+.feature-card {
+  position: relative;
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 26px;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.3s ease;
+}
+
+/* Hover / Active */
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.18);
+}
+
+.feature-card:active {
+  transform: translateY(-2px);
+}
+
+/* Keyboard focus */
+.feature-card:focus-visible {
+  outline: 3px solid rgba(99, 102, 241, 0.5);
+}
+
+/* =========================
+   ICON
+========================= */
+.feature-icon {
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+
+/* =========================
+   TEXT
+========================= */
+.feature-card h3 {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--card-text);
+}
+
+.feature-card p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--card-muted);
+}
+
+/* =========================
+   FOOTER
+========================= */
+.feature-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.open-btn {
+  font-size: 13px;
+  font-weight: 700;
+  color: #6366f1;
+  transition: transform 0.15s ease;
+}
+
+.feature-card:hover .open-btn {
+  transform: translateX(4px);
+}
+
+/* =========================
+   ACCENTS (LEFT BORDER GLOW)
+========================= */
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  pointer-events: none;
+  border: 2px solid transparent;
+}
+
+/* Blue */
+.feature-card.blue::before {
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+/* Purple */
+.feature-card.purple::before {
+  border-color: rgba(168, 85, 247, 0.35);
+}
+
+/* Dark */
+.feature-card.dark::before {
+  border-color: rgba(15, 23, 42, 0.35);
+}
+
+/* =========================
+   DARK MODE BOOST
+========================= */
+body.dark .feature-card {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}

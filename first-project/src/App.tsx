@@ -8,7 +8,7 @@ import ProductsPage from "./pages/ProductsPage";
 import GithubPage from "./pages/GithubPage";
 
 const App = () => {
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
 
   if (loading) {
     return <p>Checking authentication...</p>;
@@ -16,36 +16,19 @@ const App = () => {
 
   return (
     <Routes>
+      {/* Login */}
       <Route
         path="/"
         element={user ? <Navigate to="/home" /> : <Login />}
       />
 
+      {/* Dashboard */}
       <Route
         path="/home"
-        element={
-          user ? (
-            <div>
-              <h2>Dashboard</h2>
-
-              <p>Logged in as: {user.email ?? "Guest User"}</p>
-              <p>
-                Provider:{" "}
-                {user.isAnonymous
-                  ? "Guest"
-                  : user.providerData?.[0]?.providerId ?? "Unknown"}
-              </p>
-
-              <button onClick={logout}>Logout</button>
-
-              <Home />
-            </div>
-          ) : (
-            <Navigate to="/" />
-          )
-        }
+        element={user ? <Home /> : <Navigate to="/" />}
       />
 
+      {/* Feature Pages */}
       <Route
         path="/home/todos"
         element={user ? <TodosPage /> : <Navigate to="/" />}
