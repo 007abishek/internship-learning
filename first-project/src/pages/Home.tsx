@@ -16,7 +16,7 @@ const Home = () => {
           <div className="topbar-left">
             <h1>Dashboard</h1>
             <p>
-              Manage your todos, products, and GitHub repositories in one place
+              Manage your todos, products, and GitHub Search in one place
             </p>
           </div>
 
@@ -46,19 +46,26 @@ const Home = () => {
             accent="blue"
           />
           <FeatureCard
-            title="Product Manager"
+            title="Product Details"
             description="Manage and organize your products"
             route="/home/products"
             icon="📦"
             accent="purple"
           />
           <FeatureCard
-            title="GitHub Repos"
-            description="View and track your GitHub repositories"
+            title="GitHub Search Engine"
+            description="View and track your GitHub profile and repositories"
             route="/home/github"
             icon="🐙"
             accent="dark"
           />
+
+          {/* <FeatureCard
+             title="software development"
+             description="lets build a software "
+             icon="**"
+             accent="purple"
+            /> */}
         </div>
       </div>
     </div>

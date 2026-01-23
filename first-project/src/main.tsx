@@ -5,6 +5,9 @@ import App from "./App";
 import { AuthProvider } from "./auth/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import "./index.css";
+import "./styles/global.css";
+import "./styles/theme.css";
+
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Root element not found");
