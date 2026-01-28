@@ -1,45 +1,45 @@
 export {}; // 👈 makes this file a module (avoids redeclare issues)
 
 /* =====================================================
-   1️⃣ TYPE ASSERTION using `as`
+    TYPE ASSERTION using `as`
 ===================================================== */
 
 // Type assertion tells TypeScript: "Trust me, I know the type"
 
 let value: unknown = "TypeScript";
 
-// ❌ Without assertion → error
+// Without assertion → error
 // value.toUpperCase();
 
-// ✅ With assertion
+// With assertion
 const strValue = value as string;
 console.log(strValue.toUpperCase());
 
-/* ❗ Important:
+/*  Important:
    Type assertion does NOT change runtime value.
    It only helps the compiler.
 */
 
-// ❌ DANGEROUS assertion (uncomment to see runtime issue)
+//  DANGEROUS assertion (uncomment to see runtime issue)
 // const numValue = value as number;
 // console.log(numValue.toFixed(2)); // Runtime error
 
 /* =====================================================
-   2️⃣ TYPE ASSERTION WITH DOM ELEMENTS
+   2️ TYPE ASSERTION WITH DOM ELEMENTS
 ===================================================== */
 
 // Common real-world use case
 const input = document.createElement("input");
 
-// ❌ Without assertion
+// Without assertion
 // input.value;
 
-// ✅ With assertion
+// With assertion
 const inputElement = input as HTMLInputElement;
 inputElement.value = "Hello";
 
 /* =====================================================
-   3️⃣ TYPE GUARD using `typeof`
+   3️ TYPE GUARD using `typeof`
 ===================================================== */
 
 function printValue(value: string | number) {
@@ -54,7 +54,7 @@ printValue("typescript");
 printValue(100);
 
 /* =====================================================
-   4️⃣ TYPE GUARD using `instanceof`
+   4️ TYPE GUARD using `instanceof`
 ===================================================== */
 
 class Car {
@@ -81,7 +81,7 @@ useVehicle(new Car());
 useVehicle(new Bike());
 
 /* =====================================================
-   5️⃣ CUSTOM TYPE GUARD (IMPORTANT)
+   5️ CUSTOM TYPE GUARD (IMPORTANT)
 ===================================================== */
 
 type User = {
@@ -111,7 +111,7 @@ checkUser({ name: "Abhishek", isAdmin: true });
 checkUser({ name: "Rahul" });
 
 /* =====================================================
-   6️⃣ TYPE ASSERTION vs TYPE GUARD (Comparison)
+   6️ TYPE ASSERTION vs TYPE GUARD (Comparison)
 ===================================================== */
 
 function unsafeExample(value: unknown) {
@@ -125,14 +125,14 @@ function safeExample(value: unknown) {
   }
 }
 
-// ❌ BREAK (uncomment)
+// BREAK (uncomment)
 // unsafeExample(123); // runtime crash
 
 safeExample("safe");
 safeExample(123);
 
 /* =====================================================
-   7️⃣ REAL-WORLD INTERVIEW SCENARIO
+   7️ REAL-WORLD INTERVIEW SCENARIO
 ===================================================== */
 
 type ApiResponse =

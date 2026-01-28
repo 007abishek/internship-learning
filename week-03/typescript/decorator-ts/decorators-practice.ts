@@ -1,8 +1,8 @@
 export {};
 
-/* ===============================
-   CLASS DECORATOR
-================================ */
+
+ //  CLASS DECORATOR
+
 
 function Logger(constructor: Function) {
   console.log("Class created:", constructor.name);
@@ -13,9 +13,9 @@ class User {
   name = "Abhishek";
 }
 
-/* ===============================
-   CLASS DECORATOR MODIFYING CLASS
-================================ */
+
+ //  CLASS DECORATOR MODIFYING CLASS
+
 
 function AddRole(role: string) {
   return function (constructor: Function) {
@@ -32,9 +32,9 @@ class AdminUser {
 const admin = new AdminUser();
 console.log(admin.role);
 
-/* ===============================
-   METHOD DECORATOR
-================================ */
+
+  // METHOD DECORATOR
+
 
 function LogMethod(
   target: any,
@@ -58,9 +58,8 @@ class Calculator {
 
 console.log(new Calculator().add(2, 3));
 
-/* ===============================
-   PROPERTY DECORATOR (FIXED)
-================================ */
+ //  PROPERTY DECORATOR (FIXED)
+
 
 function Readonly(target: any, propertyKey: string) {
   let value: any;
@@ -86,9 +85,8 @@ class Config {
 const config = new Config();
 // config.apiUrl = "changed"; // ❌ throws custom error
 
-/* ===============================
-   PARAMETER DECORATOR
-================================ */
+
+  // PARAMETER DECORATOR
 
 function LogParam(
   target: any,
@@ -106,9 +104,8 @@ class Service {
 
 new Service().save("File");
 
-/* ===============================
-   VALIDATION DECORATOR
-================================ */
+  // VALIDATION DECORATOR
+
 
 function Validate(
   target: any,

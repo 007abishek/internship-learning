@@ -1,10 +1,10 @@
 export {}; // 👈 makes file a module (avoids redeclare issues)
 
-/* =====================================================
-   1️⃣ ENUMS (Numeric & String)
-===================================================== */
 
-// Numeric enum
+   //ENUMS (Numeric & String)
+
+
+//1. Numeric enum
 enum Direction {
   Up,
   Down,
@@ -35,7 +35,7 @@ function checkAccess(role: UserRole) {
 checkAccess(UserRole.Admin);
 
 /* =====================================================
-   2️⃣ UNION TYPES (Basic)
+   2️.UNION TYPES (Basic)
 ===================================================== */
 
 let id: number | string;
@@ -43,11 +43,11 @@ let id: number | string;
 id = 101;
 id = "A101";
 
-// ❌ BREAK (uncomment)
+// BREAK (uncomment)
 // id = true; // Error
 
 /* =====================================================
-   3️⃣ UNION TYPES WITH FUNCTIONS (Type Narrowing)
+   3. UNION TYPES WITH FUNCTIONS (Type Narrowing)
 ===================================================== */
 
 function printId(value: number | string) {
@@ -62,7 +62,7 @@ printId(100);
 printId("typescript");
 
 /* =====================================================
-   4️⃣ UNION WITH LITERAL TYPES (Very Common)
+   4️ UNION WITH LITERAL TYPES (Very Common)
 ===================================================== */
 
 type Status = "loading" | "success" | "error";
@@ -73,7 +73,7 @@ let currentStatus: Status = "loading";
 // currentStatus = "done"; // Error
 
 /* =====================================================
-   5️⃣ ENUM vs UNION (Comparison in Code)
+   5️ ENUM vs UNION (Comparison in Code)
 ===================================================== */
 
 // Enum version
@@ -93,7 +93,7 @@ let theme2: ThemeUnion = "light";
 // theme2 = "blue"; // Error
 
 /* =====================================================
-   6️⃣ COMBINING ENUMS + UNION TYPES
+   6️ COMBINING ENUMS + UNION TYPES
 ===================================================== */
 
 enum HttpStatus {
@@ -114,7 +114,7 @@ handleResponse(HttpStatus.Success, "success");
 // handleResponse(201, "ok"); // Error
 
 /* =====================================================
-   7️⃣ REAL-WORLD STYLE EXAMPLE
+   7️ REAL-WORLD STYLE EXAMPLE
 ===================================================== */
 
 type Role = "admin" | "user";
