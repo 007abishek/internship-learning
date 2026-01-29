@@ -1,8 +1,8 @@
-const service = require("../services/user.service");
+const userService = require("../services/user.service");
 
 exports.getUsers = async (req, res, next) => {
   try {
-    const users = await service.getUsers();
+    const users = await userService.getUsers();
     res.json(users);
   } catch (err) {
     next(err);
@@ -14,10 +14,10 @@ exports.createUser = async (req, res, next) => {
     const { name } = req.body;
 
     if (!name) {
-      return res.status(400).json({ message: "Name required" });
+      return res.status(400).json({ message: "Name is required" });
     }
 
-    const user = await service.createUser(name);
+    const user = await userService.createUser(name);
     res.status(201).json(user);
   } catch (err) {
     next(err);
@@ -26,7 +26,7 @@ exports.createUser = async (req, res, next) => {
 
 exports.getUserById = async (req, res, next) => {
   try {
-    const user = await service.getUserById(req.params.id);
+    const user = await userService.getUserById(req.params.id);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -40,7 +40,7 @@ exports.getUserById = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   try {
-    await service.deleteUser(req.params.id);
+    await userService.deleteUser(req.params.id);
     res.status(204).end();
   } catch (err) {
     next(err);

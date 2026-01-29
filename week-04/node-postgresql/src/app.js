@@ -1,14 +1,14 @@
 const express = require("express");
-const app = express();
-
 const userRoutes = require("./routes/user.routes");
-const logger = require("./middlewares/logger");
+const taskRoutes = require("./routes/task.routes");
 const errorHandler = require("./middlewares/errorHandler");
 
+const app = express();
+
 app.use(express.json());
-app.use(logger);
 
 app.use("/users", userRoutes);
+app.use("/tasks", taskRoutes);
 
 app.use(errorHandler);
 

@@ -1,7 +1,6 @@
 {
   "name": "restapi-async",
   "version": "1.0.0",
-  "description": "Express REST API with async",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
