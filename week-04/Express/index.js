@@ -2,52 +2,75 @@ const express = require("express");
 const app = express();
 
 
+// BUILT-IN MIDDLEWARE
+// Parse JSON body
+app.use(express.json());
+
+
+//CUSTOM MIDDLEWARE
+
+// Runs for every request
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
-  next();
+  next(); // pass control to next handler
 });
 
+//ROUTES
 
+
+// GET route
+app.get("/", (req, res) => {
+  res.send("Welcome to Express.js");
+});
+
+// POST route (handling request body)
 app.post("/user", (req, res) => {
-  res.send("post request to user!!!");
+  const { name, role } = req.body;
+
+  res.json({
+    message: "User created",
+    data: { name, role }
+  });
 });
 
-
-app.get("/r/:subreddit",(req,res) => {
-    const {subreddit}=req.params;
-    res.send(`<h1>Browsing  the ${subreddit} </h1>`)
-})
-//express path parameters
-
-app.get("/r/:subreddit/:postId",(req,res) => {
-    const {subreddit,postId}=req.params;
-    res.send(`<h1>view with post and  ${postId} Browsing  the ${subreddit} </h1>`)
-})
-
-
-app.get("/user", (req, res) => {
-  res.send("it is user page");
+// Route parameters 
+app.get("/r/:subreddit", (req, res) => {
+  const { subreddit } = req.params;
+  res.send(`<h1>Browsing subreddit: ${subreddit}</h1>`);
 });
 
+// Multiple route parameters
+app.get("/r/:subreddit/:postId", (req, res) => {
+  const { subreddit, postId } = req.params;
+  res.send(
+    `<h1>Viewing post ${postId} in subreddit ${subreddit}</h1>`
+  );
+});
 
+// Query string handling
+app.get("/search", (req, res) => {
+  const { q } = req.query;
+
+  if (!q) {
+    return res.status(400).send("Search query is required");
+  }
+
+  res.send(`<h1>Search results for: ${q}</h1>`);
+});
+
+// Another GET route
 app.get("/product", (req, res) => {
-  res.send("it is product page");
+  res.send("This is the product page");
 });
 
-//working with query string
-app.get('/search',(req,res) =>{
-    console.log(req.query);
-    const {q}=req.query;
-    if(!q){
-        res.send("not there for other value")
-    }
-    res.send(`<h1> search results for ${q} </h1>`)
-})
-// fallback
+
+ //  FALLBACK (404)
 app.use((req, res) => {
   res.status(404).send("Route not found");
 });
 
+
+//   SERVER START
 
 app.listen(8080, () => {
   console.log("LISTENING ON PORT 8080!");
