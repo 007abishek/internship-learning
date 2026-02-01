@@ -13,7 +13,6 @@ export default function Navbar() {
 
   const { user, loading } = useAppSelector((state) => state.auth);
 
-  // 🛒 cart count
   const cartCount = useAppSelector((state) =>
     state.cart.items.reduce(
       (total, item) => total + item.quantity,
@@ -21,13 +20,8 @@ export default function Navbar() {
     )
   );
 
-  // ⏳ wait for auth to resolve
-  if (loading) return null;
+  if (loading || !user) return null;
 
-  // 🚫 hide navbar if not logged in
-  if (!user) return null;
-
-  // ✅ show cart only on product-related routes
   const showCart =
     location.pathname.startsWith("/products") ||
     location.pathname === "/cart";
@@ -42,17 +36,27 @@ export default function Navbar() {
     <nav className="flex items-center justify-between px-6 py-4 bg-black text-white">
       {/* Left */}
       <div className="flex gap-6">
-        <Link to="/">Home</Link>
-        <Link to="/products">Products</Link>
-        <Link to="/todos">Todos</Link>
-        <Link to="/github">GitHub</Link>
+        <Link to="/" className="inline-block shrink-0">
+          Home
+        </Link>
+        <Link to="/products" className="inline-block shrink-0">
+          Products
+        </Link>
+        <Link to="/todos" className="inline-block shrink-0">
+          Todos
+        </Link>
+        <Link to="/github" className="inline-block shrink-0">
+          GitHub
+        </Link>
       </div>
 
       {/* Right */}
       <div className="flex items-center gap-4">
-        {/* 🛒 Cart (only on product pages) */}
         {showCart && (
-          <Link to="/cart" className="relative">
+          <Link
+            to="/cart"
+            className="relative inline-block shrink-0"
+          >
             🛒
             {cartCount > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs px-2 rounded-full">
@@ -66,6 +70,7 @@ export default function Navbar() {
         <AvatarMenu email={user.email} />
 
         <button
+          type="button"
           onClick={handleLogout}
           className="bg-red-600 px-4 py-1 rounded"
         >

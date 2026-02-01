@@ -11,6 +11,7 @@ import {
   loadTodosForUser,
   saveTodosForUser,
 } from "../../utils/indexedDb";
+import SignupPrompt from "../../components/SignupPrompt";
 
 export default function TodosPage() {
   const dispatch = useAppDispatch();
@@ -18,10 +19,14 @@ export default function TodosPage() {
   const todos = useAppSelector((state) => state.todos.todos);
   const { user, loading } = useAppSelector((state) => state.auth);
 
+  const isGuest = user?.provider === "guest";
+
   const [text, setText] = useState("");
+  const [showPrompt, setShowPrompt] = useState(false);
+
   const hydrated = useRef(false);
 
-  // Load todos after auth resolves
+  // ✅ Load todos after auth resolves
   useEffect(() => {
     if (loading) return;
     if (!user?.uid) return;
@@ -32,7 +37,7 @@ export default function TodosPage() {
     });
   }, [loading, user?.uid, dispatch]);
 
-  // Save todos after hydration
+  // ✅ Save todos after hydration
   useEffect(() => {
     if (!hydrated.current) return;
     if (!user?.uid) return;
@@ -42,6 +47,13 @@ export default function TodosPage() {
 
   const handleAdd = () => {
     if (!text.trim()) return;
+
+    // 🔒 Guest restriction
+    if (isGuest && todos.length >= 3) {
+      setShowPrompt(true);
+      return;
+    }
+
     dispatch(addTodo(text));
     setText("");
   };
@@ -50,14 +62,20 @@ export default function TodosPage() {
     <AppLayout>
       <h1 className="text-2xl font-bold mb-6">Todos</h1>
 
+      {/* Input */}
       <div className="flex gap-3 mb-4">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
           className="border px-3 py-2 rounded w-full dark:bg-gray-800"
-          placeholder="Enter a todo"
+          placeholder={
+            isGuest
+              ? "Guest users can add up to 3 todos"
+              : "Enter a todo"
+          }
         />
         <button
+          type="button"
           onClick={handleAdd}
           className="bg-blue-600 text-white px-4 rounded"
         >
@@ -65,6 +83,7 @@ export default function TodosPage() {
         </button>
       </div>
 
+      {/* Todo list */}
       <ul className="space-y-2">
         {todos.map((todo) => (
           <li
@@ -75,7 +94,9 @@ export default function TodosPage() {
               <input
                 type="checkbox"
                 checked={todo.completed}
-                onChange={() => dispatch(toggleTodo(todo.id))}
+                onChange={() =>
+                  dispatch(toggleTodo(todo.id))
+                }
                 className="h-4 w-4 cursor-pointer accent-blue-600"
               />
 
@@ -91,7 +112,10 @@ export default function TodosPage() {
             </div>
 
             <button
-              onClick={() => dispatch(deleteTodo(todo.id))}
+              type="button"
+              onClick={() =>
+                dispatch(deleteTodo(todo.id))
+              }
               className="text-red-500 ml-3"
             >
               ✕
@@ -99,6 +123,11 @@ export default function TodosPage() {
           </li>
         ))}
       </ul>
+
+      {/* 🔔 Signup prompt for guest users */}
+      {showPrompt && (
+        <SignupPrompt message="Sign up to create unlimited todos" />
+      )}
     </AppLayout>
   );
 }

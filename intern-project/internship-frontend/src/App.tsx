@@ -14,11 +14,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 export default function App() {
   return (
     <Routes>
-      {/* 🌍 Public Routes */}
+      {/* Public */}
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
 
-      {/* 🔒 Protected Routes */}
+      {/* Protected */}
       <Route
         path="/"
         element={
@@ -64,7 +64,7 @@ export default function App() {
         }
       />
 
-      {/* ❌ Fallback */}
+      {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

@@ -1,21 +1,16 @@
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase/config";
-import { useNavigate } from "react-router-dom";
+interface AvatarMenuProps {
+  email: string | null;
+}
 
-export default function AvatarMenu() {
-  const navigate = useNavigate();
-
-  const logout = async () => {
-    await signOut(auth);
-    navigate("/login");
-  };
+export default function AvatarMenu({ email }: AvatarMenuProps) {
+  const initial = email ? email[0].toUpperCase() : "U";
 
   return (
-    <button
-      onClick={logout}
-      className="w-9 h-9 rounded-full bg-red-600 flex items-center justify-center font-bold"
+    <div
+      title={email ?? "Guest"}
+      className="w-9 h-9 rounded-full bg-gray-700 text-white flex items-center justify-center font-bold cursor-pointer"
     >
-      U
-    </button>
+      {initial}
+    </div>
   );
 }

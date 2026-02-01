@@ -4,27 +4,40 @@ import {
   useSearchUsersQuery,
   useSearchReposQuery,
 } from "./githubApi";
+import { useDebounce } from "../../utils/useDebounce";
 
-type SearchMode = "users" | "repos";
+type Mode = "users" | "repos";
 
 export default function GithubPage() {
+  const [mode, setMode] = useState<Mode>("users");
   const [query, setQuery] = useState("");
-  const [search, setSearch] = useState("");
-  const [mode, setMode] = useState<SearchMode>("users");
+  const [page, setPage] = useState(1);
+
+  const debouncedQuery = useDebounce(query, 500);
+
+  const showResults = debouncedQuery.trim().length > 0;
 
   const {
-    data: userResults,
+    data: usersData,
     isLoading: usersLoading,
-  } = useSearchUsersQuery(search, {
-    skip: !search || mode !== "users",
-  });
+    error: usersError,
+  } = useSearchUsersQuery(
+    { query: debouncedQuery, page },
+    { skip: !showResults || mode !== "users" }
+  );
 
   const {
-    data: repoResults,
+    data: reposData,
     isLoading: reposLoading,
-  } = useSearchReposQuery(search, {
-    skip: !search || mode !== "repos",
-  });
+    error: reposError,
+  } = useSearchReposQuery(
+    { query: debouncedQuery, page },
+    { skip: !showResults || mode !== "repos" }
+  );
+
+  const isRateLimited =
+    (usersError as any)?.status === 403 ||
+    (reposError as any)?.status === 403;
 
   return (
     <AppLayout>
@@ -32,100 +45,104 @@ export default function GithubPage() {
         GitHub Search
       </h1>
 
-      {/* Mode toggle */}
-      <div className="flex gap-4 mb-4">
+      {/* Mode Toggle */}
+      <div className="flex gap-3 mb-4">
         <button
-          onClick={() => setMode("users")}
-          className={`px-4 py-2 rounded ${
-            mode === "users"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 dark:bg-gray-700"
-          }`}
+          onClick={() => {
+            setMode("users");
+            setPage(1);
+          }}
+          className={mode === "users" ? "font-bold" : ""}
         >
           Users
         </button>
-
         <button
-          onClick={() => setMode("repos")}
-          className={`px-4 py-2 rounded ${
-            mode === "repos"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 dark:bg-gray-700"
-          }`}
+          onClick={() => {
+            setMode("repos");
+            setPage(1);
+          }}
+          className={mode === "repos" ? "font-bold" : ""}
         >
           Repositories
         </button>
       </div>
 
-      {/* Search input */}
-      <div className="flex gap-3 mb-6">
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={`Search GitHub ${mode}`}
-          className="border px-3 py-2 rounded w-full dark:bg-gray-800"
-        />
-        <button
-          onClick={() => setSearch(query.trim())}
-          className="bg-black text-white px-4 rounded"
-        >
-          Search
-        </button>
-      </div>
+      {/* Search */}
+      <input
+        value={query}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setPage(1);
+        }}
+        placeholder={`Search GitHub ${mode}`}
+        className="border px-3 py-2 rounded w-full mb-4"
+      />
 
-      {(usersLoading || reposLoading) && (
+      {/* Empty state */}
+      {!showResults && (
+        <p className="text-gray-500">
+          Start typing to search GitHub {mode}.
+        </p>
+      )}
+
+      {/* Rate limit */}
+      {isRateLimited && (
+        <p className="text-red-500">
+          GitHub API rate limit exceeded. Please try later.
+        </p>
+      )}
+
+      {/* Loading */}
+      {(usersLoading || reposLoading) && showResults && (
         <p className="text-gray-500">Loading...</p>
       )}
 
-      {/* USER RESULTS */}
-      {mode === "users" && userResults && (
-        <ul className="space-y-3">
-          {userResults.items.map((user) => (
-            <li
-              key={user.login}
-              className="flex items-center gap-4 border p-3 rounded"
+      {/* Results */}
+      {showResults && mode === "users" &&
+        usersData?.items.map((user) => (
+          <div key={user.login} className="border p-3 mb-2">
+            <a
+              href={user.html_url}
+              target="_blank"
+              rel="noreferrer"
+              className="text-blue-500"
             >
-              <img
-                src={user.avatar_url}
-                className="w-12 h-12 rounded-full"
-              />
-              <a
-                href={user.html_url}
-                target="_blank"
-                className="text-blue-500 font-medium"
-              >
-                {user.login}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
+              {user.login}
+            </a>
+          </div>
+        ))}
 
-      {/* REPO RESULTS */}
-      {mode === "repos" && repoResults && (
-        <ul className="space-y-3">
-          {repoResults.items.map((repo) => (
-            <li
-              key={repo.id}
-              className="border p-4 rounded"
+      {showResults && mode === "repos" &&
+        reposData?.items.map((repo) => (
+          <div key={repo.id} className="border p-3 mb-2">
+            <a
+              href={repo.html_url}
+              target="_blank"
+              rel="noreferrer"
+              className="text-blue-500"
             >
-              <a
-                href={repo.html_url}
-                target="_blank"
-                className="text-blue-500 font-medium"
-              >
-                {repo.name}
-              </a>
-              <p className="text-sm text-gray-500">
-                Owner: {repo.owner.login}
-              </p>
-              <p className="text-sm">
-                ⭐ {repo.stargazers_count} · 🍴{" "}
-                {repo.forks_count}
-              </p>
-            </li>
-          ))}
-        </ul>
+              {repo.name}
+            </a>
+            <p className="text-sm">
+              ⭐ {repo.stargazers_count}
+            </p>
+          </div>
+        ))}
+
+      {/* Pagination */}
+      {showResults && (usersData || reposData) && (
+        <div className="flex gap-4 mt-4">
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((p) => p - 1)}
+          >
+            Prev
+          </button>
+          <span>Page {page}</span>
+          <button onClick={() => setPage((p) => p + 1)}>
+            Next
+          </button>
+        </div>
       )}
     </AppLayout>
   );

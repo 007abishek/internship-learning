@@ -1,17 +1,31 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import AppLayout from "../../components/layout/AppLayout";
 import { useGetProductsQuery } from "./productApi";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { addToCart } from "./cartSlice";
-import { store } from "../../app/store";
+import SignupPrompt from "../../components/SignupPrompt";
+
 export default function ProductsPage() {
   const dispatch = useAppDispatch();
-  const { data, isLoading } = useGetProductsQuery();
+  const { data, isLoading, isError } = useGetProductsQuery();
+
+  const { user } = useAppSelector((state) => state.auth);
+  const isGuest = user?.provider === "guest";
+
+  const [showPrompt, setShowPrompt] = useState(false);
 
   if (isLoading) {
     return (
       <AppLayout>
         <p>Loading products...</p>
+      </AppLayout>
+    );
+  }
+
+  if (isError) {
+    return (
+      <AppLayout>
+        <p className="text-red-500">Failed to load products</p>
       </AppLayout>
     );
   }
@@ -24,38 +38,44 @@ export default function ProductsPage() {
         {data?.map((product) => (
           <div
             key={product.id}
-            className="border p-4 rounded"
+            className="bg-gray-900 text-white rounded-xl p-4 shadow"
           >
-            <Link to={`/products/${product.id}`}>
-              <img
-                src={product.image}
-                className="h-40 mx-auto"
-              />
-              <h2 className="mt-2 font-medium">
-                {product.title}
-              </h2>
-            </Link>
+            {/* 🖼 Image (not clickable) */}
+            <img
+              src={product.image}
+              alt={product.title}
+              className="h-40 mx-auto object-contain pointer-events-none"
+            />
 
-            <p className="font-bold mt-1">
-              ₹ {product.price}
-            </p>
+            {/* 📝 Title (not clickable) */}
+            <h2 className="mt-3 font-medium line-clamp-2 pointer-events-none">
+              {product.title}
+            </h2>
 
+            <p className="font-bold mt-2">₹ {product.price}</p>
+
+            {/* 🛒 Add to Cart */}
             <button
-  onClick={() => {
-    console.log("CLICKED");
-    dispatch(addToCart(product));
-
-    console.log(
-      "STATE AFTER DISPATCH:",
-      store.getState().cart.items
-    );
-  }}
->
-  Add to Cart
-</button>
+              type="button"
+              onClick={() => {
+                if (isGuest) {
+                  setShowPrompt(true);
+                  return;
+                }
+                dispatch(addToCart(product));
+              }}
+              className="mt-4 w-full bg-blue-600 hover:bg-blue-500 text-white py-2 rounded"
+            >
+              Add to Cart
+            </button>
           </div>
         ))}
       </div>
+
+      {/* 🔔 Signup prompt for guest users */}
+      {showPrompt && (
+        <SignupPrompt message="Sign up to add products to your cart" />
+      )}
     </AppLayout>
   );
 }

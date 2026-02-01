@@ -8,40 +8,95 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
-  const signup = async () => {
+  /* ---------------- VALIDATION ---------------- */
+
+  const validate = () => {
+    if (!email.trim()) {
+      setError("Email is required");
+      return false;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError("Enter a valid email address");
+      return false;
+    }
+
+    if (!password) {
+      setError("Password is required");
+      return false;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return false;
+    }
+
     setError(null);
+    return true;
+  };
+
+  /* ---------------- ERROR MAPPING ---------------- */
+
+  const getErrorMessage = (code: string) => {
+    switch (code) {
+      case "auth/email-already-in-use":
+        return "This email is already registered. Please log in.";
+      case "auth/invalid-email":
+        return "Invalid email address.";
+      case "auth/weak-password":
+        return "Password should be at least 6 characters.";
+      default:
+        return "Something went wrong. Please try again.";
+    }
+  };
+
+  /* ---------------- SIGNUP ---------------- */
+
+  const signup = async () => {
+    if (!validate()) return;
+
     try {
+      setLoading(true);
       await createUserWithEmailAndPassword(auth, email, password);
       navigate("/login");
     } catch (err) {
       const firebaseError = err as FirebaseError;
-
-      if (firebaseError.code === "auth/email-already-in-use") {
-        setError("This email is already registered. Please log in.");
-      } else if (firebaseError.code === "auth/weak-password") {
-        setError("Password should be at least 6 characters.");
-      } else {
-        setError("Something went wrong. Try again.");
-      }
+      setError(getErrorMessage(firebaseError.code));
+    } finally {
+      setLoading(false);
     }
   };
+
+  /* ---------------- UI ---------------- */
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-        <h1 className="text-2xl font-bold text-center mb-6">Sign Up</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">
+          Create Account
+        </h1>
 
         {error && (
-          <p className="text-red-600 text-sm mb-3 text-center">{error}</p>
+          <p
+            role="alert"
+            className="text-red-600 text-sm mb-3 text-center"
+          >
+            {error}
+          </p>
         )}
 
         <input
           className="w-full border rounded px-3 py-2 mb-3"
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setError(null);
+          }}
         />
 
         <input
@@ -49,14 +104,18 @@ export default function Signup() {
           placeholder="Password"
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setError(null);
+          }}
         />
 
         <button
           onClick={signup}
-          className="w-full bg-green-600 text-white py-2 rounded mb-3"
+          disabled={loading}
+          className="w-full bg-green-600 text-white py-2 rounded mb-3 disabled:opacity-50"
         >
-          Create Account
+          {loading ? "Creating account..." : "Create Account"}
         </button>
 
         <p className="text-sm text-center">
