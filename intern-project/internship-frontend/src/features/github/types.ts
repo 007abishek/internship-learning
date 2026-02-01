@@ -8,44 +8,41 @@ import type {
 
 export const githubApi = createApi({
   reducerPath: "githubApi",
-
   baseQuery: fetchBaseQuery({
     baseUrl: "https://api.github.com/",
   }),
-
   endpoints: (builder) => ({
-    // 👤 Get single user profile
+    // 👤 Single user profile
     getUser: builder.query<GithubUser, string>({
       query: (username) => `users/${username}`,
     }),
 
-    // 📦 Get repositories of a user
+    // 📦 User repositories
     getRepos: builder.query<GithubRepo[], string>({
       query: (username) =>
-        `users/${username}/repos?sort=updated&per_page=10`,
+        `users/${username}/repos?sort=updated`,
     }),
 
-    // 🔍 Search GitHub users (with pagination)
+    // 🔍 Search users
     searchUsers: builder.query<
       GithubUserSearchResponse,
-      { query: string; page: number }
+      string
     >({
-      query: ({ query, page }) =>
-        `search/users?q=${query}&page=${page}&per_page=10`,
+      query: (query) =>
+        `search/users?q=${query}&per_page=10`,
     }),
 
-    // 🔍 Search GitHub repositories/projects (with pagination)
+    // 🔍 Search repositories (projects)
     searchRepos: builder.query<
       GithubRepoSearchResponse,
-      { query: string; page: number }
+      string
     >({
-      query: ({ query, page }) =>
-        `search/repositories?q=${query}&page=${page}&per_page=10`,
+      query: (query) =>
+        `search/repositories?q=${query}&per_page=10`,
     }),
   }),
 });
 
-// ✅ Auto-generated RTK Query hooks
 export const {
   useGetUserQuery,
   useGetReposQuery,

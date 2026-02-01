@@ -10,6 +10,7 @@ import App from "./App";
 
 import "./index.css";
 
+// 🔐 Firebase auth → Redux
 startAuthListener(store.dispatch);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

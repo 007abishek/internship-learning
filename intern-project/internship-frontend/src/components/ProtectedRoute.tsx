@@ -2,20 +2,22 @@ import { Navigate } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
 import type { ReactNode } from "react";
 
-interface ProtectedRouteProps {
+interface Props {
   children: ReactNode;
 }
 
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const isAuthenticated = useAppSelector(
-    (state) => state.auth.isAuthenticated
+export default function ProtectedRoute({ children }: Props) {
+  const { isAuthenticated, loading } = useAppSelector(
+    (state) => state.auth
   );
+
+  if (loading) {
+    return <div className="p-6">Loading...</div>;
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
   return <>{children}</>;
-};
-
-export default ProtectedRoute;
+}

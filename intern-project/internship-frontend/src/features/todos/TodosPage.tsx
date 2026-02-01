@@ -1,16 +1,44 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AppLayout from "../../components/layout/AppLayout";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   addTodo,
   toggleTodo,
   deleteTodo,
+  setTodos,
 } from "./todoSlice";
+import {
+  loadTodosForUser,
+  saveTodosForUser,
+} from "../../utils/indexedDb";
 
 export default function TodosPage() {
   const dispatch = useAppDispatch();
+
   const todos = useAppSelector((state) => state.todos.todos);
+  const { user, loading } = useAppSelector((state) => state.auth);
+
   const [text, setText] = useState("");
+  const hydrated = useRef(false);
+
+  // Load todos after auth resolves
+  useEffect(() => {
+    if (loading) return;
+    if (!user?.uid) return;
+
+    loadTodosForUser(user.uid).then((storedTodos) => {
+      dispatch(setTodos(storedTodos));
+      hydrated.current = true;
+    });
+  }, [loading, user?.uid, dispatch]);
+
+  // Save todos after hydration
+  useEffect(() => {
+    if (!hydrated.current) return;
+    if (!user?.uid) return;
+
+    saveTodosForUser(user.uid, todos);
+  }, [todos, user?.uid]);
 
   const handleAdd = () => {
     if (!text.trim()) return;
@@ -41,20 +69,30 @@ export default function TodosPage() {
         {todos.map((todo) => (
           <li
             key={todo.id}
-            className="flex justify-between items-center bg-gray-100 dark:bg-gray-800 p-3 rounded"
+            className="flex items-center justify-between bg-gray-100 dark:bg-gray-800 p-3 rounded"
           >
-            <span
-              onClick={() => dispatch(toggleTodo(todo.id))}
-              className={`cursor-pointer ${
-                todo.completed ? "line-through text-gray-400" : ""
-              }`}
-            >
-              {todo.text}
-            </span>
+            <div className="flex items-center gap-3 flex-1">
+              <input
+                type="checkbox"
+                checked={todo.completed}
+                onChange={() => dispatch(toggleTodo(todo.id))}
+                className="h-4 w-4 cursor-pointer accent-blue-600"
+              />
+
+              <span
+                className={`select-none transition ${
+                  todo.completed
+                    ? "line-through text-gray-400 italic"
+                    : "text-black dark:text-white"
+                }`}
+              >
+                {todo.text}
+              </span>
+            </div>
 
             <button
               onClick={() => dispatch(deleteTodo(todo.id))}
-              className="text-red-500"
+              className="text-red-500 ml-3"
             >
               ✕
             </button>

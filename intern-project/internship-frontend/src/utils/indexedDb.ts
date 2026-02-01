@@ -1,61 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { openDB } from "idb";
+import type { Todo } from "../features/todos/todoSlice";
 
-export interface Todo {
-  id: string;
-  text: string;
-  completed: boolean;
-}
+const DB_NAME = "todo-db";
+const DB_VERSION = 2; // 🔥 INCREMENT VERSION
+const STORE_NAME = "todos-by-user";
 
-interface TodoState {
-  todos: Todo[];
-}
-
-const initialState: TodoState = {
-  todos: [],
-};
-
-const todoSlice = createSlice({
-  name: "todos",
-  initialState,
-  reducers: {
-    setTodos: (state, action: PayloadAction<Todo[]>) => {
-      state.todos = action.payload;
-    },
-
-    addTodo: (state, action: PayloadAction<string>) => {
-      state.todos.push({
-        id: crypto.randomUUID(),
-        text: action.payload,
-        completed: false,
-      });
-    },
-
-    toggleTodo: (state, action: PayloadAction<string>) => {
-      const todo = state.todos.find((t) => t.id === action.payload);
-      if (todo) todo.completed = !todo.completed;
-    },
-
-    editTodo: (
-      state,
-      action: PayloadAction<{ id: string; text: string }>
-    ) => {
-      const todo = state.todos.find((t) => t.id === action.payload.id);
-      if (todo) todo.text = action.payload.text;
-    },
-
-    deleteTodo: (state, action: PayloadAction<string>) => {
-      state.todos = state.todos.filter((t) => t.id !== action.payload);
-    },
+const dbPromise = openDB(DB_NAME, DB_VERSION, {
+  upgrade(db) {
+    // 🔑 create store if missing
+    if (!db.objectStoreNames.contains(STORE_NAME)) {
+      db.createObjectStore(STORE_NAME);
+    }
   },
 });
 
-export const {
-  setTodos,
-  addTodo,
-  toggleTodo,
-  editTodo,
-  deleteTodo,
-} = todoSlice.actions;
+export async function loadTodosForUser(userId: string): Promise<Todo[]> {
+  const db = await dbPromise;
+  return (await db.get(STORE_NAME, userId)) ?? [];
+}
 
-export default todoSlice.reducer;
+export async function saveTodosForUser(
+  userId: string,
+  todos: Todo[]
+): Promise<void> {
+  const db = await dbPromise;
+  await db.put(STORE_NAME, todos, userId);
+}
