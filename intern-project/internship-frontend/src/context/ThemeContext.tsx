@@ -13,13 +13,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    console.log("Theme applied:", theme);
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    console.log("Toggle clicked");
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
