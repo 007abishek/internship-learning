@@ -1,0 +1,7 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- ALTER TABLE public.posts
+-- ADD CONSTRAINT posts_user_id_fkey
+-- FOREIGN KEY (user_id)
+-- REFERENCES public.users(id)
+-- ON DELETE CASCADE;
