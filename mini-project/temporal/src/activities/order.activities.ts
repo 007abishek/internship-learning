@@ -22,7 +22,7 @@ const hasuraClient = axios.create({
   productId: string,
   amount: number
 ) {
-  console.log("🔥 Creating order via Hasura...");
+  console.log(" Creating order via Hasura...");
 
   try {
     const response = await axios.post(
@@ -54,16 +54,16 @@ const hasuraClient = axios.create({
       }
     );
 
-    console.log("✅ Full Hasura Response:", JSON.stringify(response.data, null, 2));
+    console.log(" Full Hasura Response:", JSON.stringify(response.data, null, 2));
 
     if (response.data.errors) {
       throw new Error(response.data.errors[0].message);
     }
 
-    console.log("✅ Order inserted successfully");
+    console.log(" Order inserted successfully");
 
   } catch (error: any) {
-    console.error("❌ GraphQL Error:", error.response?.data || error.message);
+    console.error(" GraphQL Error:", error.response?.data || error.message);
     throw error;
   }
 }
@@ -76,7 +76,7 @@ export async function updateOrderStatus(
   orderId: string,
   status: string
 ) {
-  console.log(`🔄 Updating order ${orderId} → ${status}`);
+  console.log(` Updating order ${orderId} → ${status}`);
 
   try {
     const response = await hasuraClient.post("", {
@@ -97,9 +97,9 @@ export async function updateOrderStatus(
       },
     });
 
-    console.log("✅ Status updated:", response.data.data.update_orders_by_pk);
+    console.log(" Status updated:", response.data.data.update_orders_by_pk);
   } catch (error: any) {
-    console.error("❌ Error updating order:", error.response?.data || error.message);
+    console.error(" Error updating order:", error.response?.data || error.message);
     throw error;
   }
 }
@@ -108,31 +108,31 @@ export async function updateOrderStatus(
  * 🔹 Inventory
  */
 export async function reserveInventory(productId: string) {
-  console.log(`📦 Reserving inventory for ${productId}`);
+  console.log(` Reserving inventory for ${productId}`);
 }
 
 export async function releaseInventory(productId: string) {
-  console.log(`↩️ Releasing inventory for ${productId}`);
+  console.log(`↩ Releasing inventory for ${productId}`);
 }
 
 /**
  * 🔹 Payment
  */
 export async function processPayment(amount: number) {
-  console.log(`💳 Processing payment of ${amount}`);
+  console.log(` Processing payment of ${amount}`);
 
   // simulate random failure
   if (Math.random() < 0.5) {
-    console.log("❌ Payment failed");
+    console.log(" Payment failed");
     throw new Error("Payment failed");
   }
 
-  console.log("✅ Payment successful");
+  console.log(" Payment successful");
 }
 
 /**
  * 🔹 Notification
  */
 export async function sendNotification(message: string) {
-  console.log("📢 Sending notification:", message);
+  console.log(" Sending notification:", message);
 }

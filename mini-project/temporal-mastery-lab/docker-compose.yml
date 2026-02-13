@@ -1,0 +1,48 @@
+services:
+  postgres-lab:
+    image: postgres:12
+    container_name: tm-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: temporal_lab
+    ports:
+      - "5434:5432"   # 🔥 Different port from other postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - tm_postgres_data:/var/lib/postgresql/data
+
+  temporal-lab:
+    image: temporalio/auto-setup
+    container_name: tm-temporal
+    restart: always
+    depends_on:
+      postgres-lab:
+        condition: service_healthy
+    environment:
+      DB: postgres12
+      DB_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PWD: postgres
+      POSTGRES_DB: temporal_lab
+      POSTGRES_SEEDS: postgres-lab  # 🔥 must match service name
+    ports:
+      - "7234:7233"   # 🔥 Different port from existing temporal
+
+  temporal-web:
+    image: temporalio/ui:latest
+    container_name: tm-web
+    depends_on:
+      - temporal-lab   # ✅ fixed (was temporal)
+    environment:
+      TEMPORAL_ADDRESS: tm-temporal:7233
+    ports:
+      - "8233:8080"    # ✅ fixed spacing
+
+volumes:
+  tm_postgres_data:
