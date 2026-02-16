@@ -7,11 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "worker": "ts-node src/workers/worker.ts",
     "start": "ts-node src/client/start.ts",
-    "lab:determinism:worker" : "ts-node src/labs/01-determinism/random.worker.ts",
-    "lab:determinism:client" : "ts-node src/labs/01-determinism/random.client.ts",
-    "lab:versioning:worker":    "ts-node src/labs/02-versioning/version.worker.ts",
-    "lab:versioning:client":    "ts-node src/labs/02-versioning/version.client.ts"
-
+    "lab:determinism:worker": "ts-node src/labs/01-determinism/random.worker.ts",
+    "lab:determinism:client": "ts-node src/labs/01-determinism/random.client.ts",
+    "lab:versioning:worker": "ts-node src/labs/02-versioning/version.worker.ts",
+    "lab:versioning:client": "ts-node src/labs/02-versioning/version.client.ts"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +24,7 @@
   "devDependencies": {
     "@types/node": "^25.2.3",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"
   }
 }

@@ -10,7 +10,7 @@ export async function versionWorkflow() {
   await stepOne();
 //   await stepTwo(); //break versioning
 
-  // 🔥 VERSION SAFE CHANGE
+  //  VERSION SAFE CHANGE
 //   if (patched('add-step-two')) {
 //     await stepTwo();
 //   }

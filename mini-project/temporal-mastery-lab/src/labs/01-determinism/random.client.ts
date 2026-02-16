@@ -2,7 +2,7 @@ import { Client, Connection } from '@temporalio/client';
 
 async function run() {
   const connection = await Connection.connect({
-    address: 'localhost:7234', // ✅ FIXED PORT
+    address: 'localhost:7234', //  FIXED PORT
   });
 
   const client = new Client({ connection });

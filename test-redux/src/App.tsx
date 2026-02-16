@@ -12,7 +12,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Test />} />
+        <Route path="/" element={<Login />} />
         <Route
           path="/dashboard"
           element={
@@ -24,6 +24,7 @@ function App() {
         <Route path="/chat" element={<ChatDemo />} />
         <Route path="/otp" element={<OtpPage />} />
         <Route path="/mail" element={<MailPage />} />
+        <Route path='/test' element={<Test/>} />
 
       </Routes>
     </BrowserRouter>

@@ -3,7 +3,7 @@ import * as activities from './version.activities';
 
 async function run() {
   try {
-    console.log("🚀 Connecting to Temporal on 127.0.0.1:7234...");
+    console.log(" Connecting to Temporal on 127.0.0.1:7234...");
 
     const connection = await NativeConnection.connect({
       address: '127.0.0.1:7234', // matches Docker port mapping
@@ -16,11 +16,11 @@ async function run() {
       taskQueue: 'version-queue',
     });
 
-    console.log("✅ Version Worker Running on 'version-queue'");
+    console.log(" Version Worker Running on 'version-queue'");
     await worker.run();
 
   } catch (error) {
-    console.error("❌ Worker crashed:", error);
+    console.error(" Worker crashed:", error);
   }
 }
 
