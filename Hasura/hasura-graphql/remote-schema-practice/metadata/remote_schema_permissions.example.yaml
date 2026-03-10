@@ -1,0 +1,113 @@
+# Example only: copy this block under the `practice_remote_schema` entry
+# in your real Hasura metadata file if you want role-scoped access.
+permissions:
+  - role: user
+    definition:
+      schema: |-
+        type Query {
+          remoteHello(name: String = "Developer"): String!
+          whoAmI: UserProfile!
+          userProfile(userId: ID!): UserProfile!
+          books: [Book!]!
+          booksAdvanced(
+            filter: BookFilterInput
+            sort: BookSort = TITLE_ASC
+            limit: Int = 10
+            offset: Int = 0
+          ): [Book!]!
+          bookById(id: ID!): Book
+          search(term: String!): [SearchResult!]!
+        }
+
+        type Mutation {
+          createBook(input: CreateBookInput!): Book!
+          updateBookTitle(id: ID!, title: String!): Book!
+        }
+
+        enum BookSort {
+          TITLE_ASC
+          TITLE_DESC
+        }
+
+        input BookFilterInput {
+          author: String
+          titleContains: String
+        }
+
+        input CreateBookInput {
+          title: String!
+          author: String!
+        }
+
+        type Book {
+          id: ID!
+          title: String!
+          author: String!
+        }
+
+        type UserProfile {
+          userId: ID!
+          role: String!
+          favoriteBook: Book
+        }
+
+        union SearchResult = Book | UserProfile
+
+  - role: admin
+    definition:
+      schema: |-
+        type Query {
+          remoteHello(name: String = "Developer"): String!
+          whoAmI: UserProfile!
+          userProfile(userId: ID!): UserProfile!
+          books: [Book!]!
+          booksAdvanced(
+            filter: BookFilterInput
+            sort: BookSort = TITLE_ASC
+            limit: Int = 10
+            offset: Int = 0
+          ): [Book!]!
+          bookById(id: ID!): Book
+          search(term: String!): [SearchResult!]!
+          adminStats: AdminStats!
+        }
+
+        type Mutation {
+          createBook(input: CreateBookInput!): Book!
+          updateBookTitle(id: ID!, title: String!): Book!
+          deleteBook(id: ID!): Boolean!
+        }
+
+        enum BookSort {
+          TITLE_ASC
+          TITLE_DESC
+        }
+
+        input BookFilterInput {
+          author: String
+          titleContains: String
+        }
+
+        input CreateBookInput {
+          title: String!
+          author: String!
+        }
+
+        type Book {
+          id: ID!
+          title: String!
+          author: String!
+        }
+
+        type UserProfile {
+          userId: ID!
+          role: String!
+          favoriteBook: Book
+        }
+
+        type AdminStats {
+          totalBooks: Int!
+          uniqueAuthors: Int!
+        }
+
+        union SearchResult = Book | UserProfile

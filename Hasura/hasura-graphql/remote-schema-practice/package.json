@@ -1,0 +1,15 @@
+{
+  "name": "remote-schema-practice",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Practice GraphQL server for Hasura remote schema integration",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "graphql": "^16.11.0",
+    "graphql-yoga": "^5.16.0"
+  }
+}

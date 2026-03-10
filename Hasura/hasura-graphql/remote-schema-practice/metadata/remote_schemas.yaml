@@ -1,0 +1,15 @@
+- name: practice_remote_schema
+  definition:
+    url_from_env: PRACTICE_REMOTE_SCHEMA_URL
+    timeout_seconds: 60
+    forward_client_headers: true
+    headers:
+      - name: x-remote-api-key
+        value_from_env: PRACTICE_REMOTE_SCHEMA_API_KEY
+  customization:
+    root_fields_namespace: rs
+    type_names:
+      prefix: RS_
+      mapping:
+        UserProfile: UserIdentity
+  comment: Practice remote schema for local learning

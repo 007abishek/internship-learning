@@ -1,0 +1,17 @@
+# Example table metadata for Hasura source "default".
+# This demonstrates a DB table -> remote schema relationship.
+table:
+  name: users
+  schema: public
+source: default
+remote_relationships:
+  - name: remote_profile
+    definition:
+      to_remote_schema:
+        remote_schema: practice_remote_schema
+        lhs_fields:
+          - id
+        remote_field:
+          userProfile:
+            arguments:
+              userId: "$id"

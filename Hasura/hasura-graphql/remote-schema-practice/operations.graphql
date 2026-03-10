@@ -1,0 +1,57 @@
+# Basic
+query BasicHello {
+  rs_remoteHello(name: "Abish")
+}
+
+# Identity (set x-hasura-role and x-hasura-user-id headers)
+query WhoAmI {
+  rs_whoAmI {
+    userId
+    role
+    favoriteBook {
+      id
+      title
+    }
+  }
+}
+
+# Pagination + filtering + sort
+query AdvancedBooks {
+  rs_booksAdvanced(filter: { titleContains: "Remote" }, sort: TITLE_DESC, limit: 10, offset: 0) {
+    id
+    title
+    author
+  }
+}
+
+# Mutation (requires x-hasura-user-id)
+mutation CreateBook {
+  rs_createBook(input: { title: "Schema by Practice", author: "Abish" }) {
+    id
+    title
+    author
+  }
+}
+
+# Union
+query SearchUnion {
+  rs_search(term: "hasura") {
+    __typename
+    ... on RS_Book {
+      id
+      title
+    }
+    ... on UserIdentity {
+      userId
+      role
+    }
+  }
+}
+
+# Admin only (requires x-hasura-role=admin)
+query AdminStats {
+  rs_adminStats {
+    totalBooks
+    uniqueAuthors
+  }
+}
