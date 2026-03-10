@@ -1,6 +1,5 @@
 # Hasura Remote Schema Practice
 
-This folder now includes a full remote schema practice kit with the major concepts you need in Hasura.
 
 ## Concepts Covered
 
